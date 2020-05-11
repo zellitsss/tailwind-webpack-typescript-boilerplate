@@ -1,5 +1,4 @@
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ComporessionWebpackPlugin = require('compression-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
@@ -15,7 +14,7 @@ module.exports = {
     devServer: {
         hot: true,
         host: '0.0.0.0',
-        publicPath: path.join(__dirname, 'dist'),
+        contentBase: path.join(__dirname, 'src/public'),
         compress: true,
         watchContentBase: true
     },
@@ -47,16 +46,6 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin([
-            {
-                from: './src/templates/*.html',
-                to: path.resolve(__dirname, 'dist/[name].[ext]')
-            },
-            {
-                from: './images/**/**',
-                to: path.resolve(__dirname, 'dist')
-            }
-        ]),
         new ImageminPlugin({
             pngquant: ({quality: [0.5, 0.5]}),
             plugins: [MozJpeg({quality: 50})],
